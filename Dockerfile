@@ -17,10 +17,6 @@ run chmod +x start.sh
 run chmod 777 /app
 run chmod +x ./forgejo-11.0.0-linux-amd64
 
-run mkdir /app/data && chmod 777 /app/data
-run mkdir /app/custom && chmod 777 /app/custom
-run mkdir /app/log && chmod 777 /app/log
-
 run mkdir -p --mode=0755 /usr/share/keyrings
 run curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg | tee /usr/share/keyrings/cloudflare-main.gpg >/dev/null
 run echo 'deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared any main' | tee /etc/apt/sources.list.d/cloudflared.list

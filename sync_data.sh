@@ -39,14 +39,14 @@ latest_backup = sorted(backups)[-1]
 print(f'最新备份文件：{latest_backup}')
 with requests.get(f'$FULL_WEBDAV_URL/{latest_backup}', auth=('$WEBDAV_USERNAME', '$WEBDAV_PASSWORD'), stream=True) as r:
     if r.status_code == 200:
-        with open(f'/app/{latest_backup}', 'wb') as f:
+        with open(f'/app/data/{latest_backup}', 'wb') as f:
             for chunk in r.iter_content(chunk_size=8192):
                 f.write(chunk)
-        print(f'成功下载备份文件到 /app/{latest_backup}')
-        if os.path.exists(f'/app/{latest_backup}'):
+        print(f'成功下载备份文件到 /app/data/{latest_backup}')
+        if os.path.exists(f'/app/data/{latest_backup}'):
             # 解压备份文件
-            with tarfile.open(f'/app/{latest_backup}', 'r:gz') as tar:
-                tar.extractall('/app/')
+            with tarfile.open(f'/app/data/{latest_backup}', 'r:gz') as tar:
+                tar.extractall('/app/data')
                 print(f'成功从 {latest_backup} 恢复备份')
         else:
             print('下载的备份文件不存在')
@@ -72,10 +72,10 @@ sync_data() {
 
             # 备份整个data目录
             cd /app
-            tar -czf "/app/${backup_file}" data custom log
+            tar -czf "/app/data/${backup_file}" data
 
             # 上传新备份到WebDAV
-            curl -u "$WEBDAV_USERNAME:$WEBDAV_PASSWORD" -T "/app/${backup_file}" "$FULL_WEBDAV_URL/${backup_file}"
+            curl -u "$WEBDAV_USERNAME:$WEBDAV_PASSWORD" -T "/app/data/${backup_file}" "$FULL_WEBDAV_URL/${backup_file}"
             if [ $? -eq 0 ]; then
                 echo "Successfully uploaded ${backup_file} to WebDAV"
             else
@@ -103,9 +103,9 @@ else:
     print('Only {} backups found, no need to clean.'.format(len(backups)))
 " 2>&1
 
-            rm -f "/app/${backup_file}"
+            rm -f "/app/data/${backup_file}"
         else
-            echo "/app/data directory does not exist, waiting for next sync..."
+            echo "/app/data/data directory does not exist, waiting for next sync..."
         fi
 
         SYNC_INTERVAL=${SYNC_INTERVAL:-86400}
