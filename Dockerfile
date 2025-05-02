@@ -37,4 +37,4 @@ RUN mkdir -p /etc/sudoers.d && \
 # 切换到新创建的非 root 用户
 USER $USERNAME
 
-cmd "./start.sh"
+cmd "/app/start.sh"
