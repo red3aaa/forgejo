@@ -56,7 +56,7 @@ with requests.get(f'$FULL_WEBDAV_URL/{latest_backup}', auth=('$WEBDAV_USERNAME',
 }
 
 # 首次启动时下载最新备份
-if [ "$DOWNLOAD_BACKUP" == "true" ]; then
+if [[ "${DOWNLOAD_BACKUP}" == "true" ]]; then
 	echo "Downloading latest backup from WebDAV..."
 	restore_backup
 fi
