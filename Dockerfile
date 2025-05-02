@@ -19,12 +19,20 @@ run curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg | tee /usr/share/k
 run echo 'deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared any main' | tee /etc/apt/sources.list.d/cloudflared.list
 run apt-get update
 run apt-get install cloudflared -y
-run touch /etc/init.d/cloudflared
-run chmod 777 /etc/init.d/cloudflared
 
+ARG USERNAME=git
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
 
-RUN useradd -m -u 1000 git
-USER git
-RUN echo "git ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+RUN groupadd --gid $USER_GID $USERNAME && \
+    useradd --uid $USER_UID --gid $USER_GID -m $USERNAME --shell /bin/bash
+
+# 配置 sudoers，允许无密码执行所有命令
+# 创建一个新文件到 /etc/sudoers.d/ 下是推荐的做法，避免直接修改 /etc/sudoers
+RUN echo "$USERNAME ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/$USERNAME && \
+    chmod 0440 /etc/sudoers.d/$USERNAME
+
+# 切换到新创建的非 root 用户
+USER $USERNAME
 
 cmd "./start.sh"
