@@ -1,4 +1,6 @@
 FROM python:3.11-slim
+copy start.sh .
+
 WORKDIR /app
 
 run pip install webdavclient3 requests
@@ -8,11 +10,15 @@ run wget https://codeberg.org/forgejo/forgejo/releases/download/v11.0.0/forgejo-
 run chmod +x forgejo-11.0.0-linux-amd64
 
 copy sync_data.sh . 
-copy start.sh .
+
 run chmod +x sync_data.sh
 run chmod +x start.sh
 run chmod 777 /app
 run chmod +x ./forgejo-11.0.0-linux-amd64
+
+run mkdir /app/data && chmod 777 /app/data
+run mkdir /app/custom && chmod 777 /app/custom
+run mkdir /app/log && chmod 777 /app/log
 
 run mkdir -p --mode=0755 /usr/share/keyrings
 run curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg | tee /usr/share/keyrings/cloudflare-main.gpg >/dev/null
@@ -37,4 +43,4 @@ RUN mkdir -p /etc/sudoers.d && \
 # 切换到新创建的非 root 用户
 USER $USERNAME
 
-cmd "/app/start.sh"
+cmd "start.sh"
