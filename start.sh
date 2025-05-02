@@ -1,6 +1,6 @@
 sudo cloudflared service install ${cloudflare_token}
 
-if if [ -d "/app/data/data" ]; then
+if [ ! -d "/app/data/data" ]; then
 	mkdir -p /app/data/data
 fi
 sudo 777 /app/data/data
