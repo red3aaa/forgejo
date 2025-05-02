@@ -56,8 +56,10 @@ with requests.get(f'$FULL_WEBDAV_URL/{latest_backup}', auth=('$WEBDAV_USERNAME',
 }
 
 # 首次启动时下载最新备份
-echo "Downloading latest backup from WebDAV..."
-restore_backup
+if [[ ${DOWNLOAD_BACKUP} == "true" ]]; then
+	echo "Downloading latest backup from WebDAV..."
+	restore_backup
+fi
 
 # 同步函数
 sync_data() {
@@ -106,7 +108,7 @@ else:
             echo "/app/data directory does not exist, waiting for next sync..."
         fi
 
-        SYNC_INTERVAL=${SYNC_INTERVAL:-7200}
+        SYNC_INTERVAL=${SYNC_INTERVAL:-86400}
         echo "Next sync in ${SYNC_INTERVAL} seconds..."
         sleep $SYNC_INTERVAL
     done

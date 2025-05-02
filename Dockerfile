@@ -14,6 +14,13 @@ run chmod +x start.sh
 run chmod 777 /app
 run chmod +x ./forgejo-11.0.0-linux-amd64
 
+run mkdir -p --mode=0755 /usr/share/keyrings
+run curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg | tee /usr/share/keyrings/cloudflare-main.gpg >/dev/null
+run echo 'deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared any main' | tee /etc/apt/sources.list.d/cloudflared.list
+run apt-get update
+run apt-get install cloudflared -y
+
+
 RUN useradd -m -u 1000 git
 USER git
 
