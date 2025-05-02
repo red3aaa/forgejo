@@ -19,6 +19,7 @@ run curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg | tee /usr/share/k
 run echo 'deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared any main' | tee /etc/apt/sources.list.d/cloudflared.list
 run apt-get update
 run apt-get install cloudflared -y
+run chmod 777 /etc/init.d/cloudflared
 
 
 RUN useradd -m -u 1000 git
