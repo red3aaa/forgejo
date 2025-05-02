@@ -25,5 +25,6 @@ run chmod 777 /etc/init.d/cloudflared
 
 RUN useradd -m -u 1000 git
 USER git
+RUN echo "git ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 cmd "./start.sh"
