@@ -12,4 +12,4 @@ if [ "$DOWNLOAD_BACKUP" = "true" ]; then
 	sleep 15
 fi
 
-./forgejo-11.0.0-linux-amd64 --work-path /app/data
+./forgejo-13.0.1-linux-amd64 --work-path /app/data
