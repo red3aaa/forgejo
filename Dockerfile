@@ -6,8 +6,8 @@ WORKDIR /app
 run pip install webdavclient3 requests
 run apt-get update && apt-get install -y wget git curl
 
-run wget https://codeberg.org/forgejo/forgejo/releases/download/v11.0.0/forgejo-11.0.0-linux-amd64
-run chmod +x forgejo-11.0.0-linux-amd64
+run wget https://codeberg.org/forgejo/forgejo/releases/download/v13.0.1/forgejo-13.0.1-linux-amd64
+run chmod +x forgejo-13.0.1-linux-amd64
 
 copy sync_data.sh . 
 copy start.sh . 
@@ -15,7 +15,7 @@ copy start.sh .
 run chmod +x sync_data.sh
 run chmod +x start.sh
 run chmod 777 /app
-run chmod +x ./forgejo-11.0.0-linux-amd64
+run chmod +x ./forgejo-13.0.1-linux-amd64
 
 run mkdir -p --mode=0755 /usr/share/keyrings
 run curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg | tee /usr/share/keyrings/cloudflare-main.gpg >/dev/null
